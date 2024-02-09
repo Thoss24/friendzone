@@ -13,18 +13,41 @@
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $error_msg = "User ${email} already exists";
-        echo json_encode($error_msg);
+        
+        $response = array(
+            'success'=> false,
+            'message'=> 'A user with that email address already exists',
+            'data'=> array(
+                'email'=> $email
+            ),
+        );
+
+        $json_response = json_encode($response);
+
+        echo $json_response;
+
     } else {
         $password = $request_data['password'];
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt = $conn->prepare("INSERT INTO person (email, password, name) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $email, $password, $name);
+        $stmt->bind_param("sss", $email, $hashed_password, $name);
         $stmt->execute();
 
         $success_msg = "User ${email} successfully added!";
         echo json_encode($success_msg);
+
+        $response = array(
+            'success'=> true,
+            'message'=> 'Account successfully created!',
+            'data'=> array(
+                'email'=> $email
+            ),
+        );
+
+        $json_response = json_encode($response);
+
+        echo $json_response;
     }
 
 ?>

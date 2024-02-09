@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
    
-    $('#login_button').on('submit', () => {
-
+    $('#login_form').on('submit', (e) => {
+        e.preventDefault()
+        login()
     });
 
-    $('#create_acc_button').on('click', (e) => {
+    $('#create_acc_form').on('submit', (e) => {
         e.preventDefault()
         createAccount()
     });
@@ -30,7 +31,19 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const login = () => {
-        const email =  $('#login_email')
-        const password = $('#login_password')
+        const email =  $('#login_email')[0]
+        const password = $('#login_password')[0]
+
+        const user = {
+            email: email.value,
+            password: password.value
+        };
+
+        $.ajax({
+            url: "http://localhost/friendzone/backend/authorization.php",
+            method: 'POST',
+            dataType: "json",
+            data: JSON.stringify(user)
+        });
     }
 })
