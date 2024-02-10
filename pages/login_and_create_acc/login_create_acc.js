@@ -26,7 +26,17 @@ document.addEventListener("DOMContentLoaded", () => {
             url: "http://localhost/friendzone/backend/create_account.php",
             method: 'POST',
             dataType: "json",
-            data: JSON.stringify(user)
+            data: JSON.stringify(user),
+            success: (response) => {
+                console.log(response)
+                window.location = "http://localhost/friendzone/pages/homepage/homepage.php"
+            },
+            error: (err) => {
+                const errorCode = err.status;
+                const message = err.responseJSON.message
+
+                alert(`Error ${errorCode}. ${message}`)
+            }
         });
     };
 
@@ -43,7 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
             url: "http://localhost/friendzone/backend/authorization.php",
             method: 'POST',
             dataType: "json",
-            data: JSON.stringify(user)
+            data: JSON.stringify(user),
+            success: (response) => {
+                console.log(response)
+                window.location = "http://localhost/friendzone/pages/homepage/homepage.php"
+            },
+            error: (err) => {
+                const errorCode = err.status;
+                const message = err.responseJSON.message
+
+                alert(`Error ${errorCode}. ${message}`)
+            }
         });
     }
 })

@@ -1,9 +1,15 @@
+<?php
+
+// check query string for error=1 & if it exists display some message saying authentication failed
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="login_page.css" rel="stylesheet"></link>
+    <link href="login_and_create_acc.css" rel="stylesheet"></link>
     <title>FriendZone Login</title>
 </head>
 <body>

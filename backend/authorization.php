@@ -30,6 +30,12 @@
                     'name'=> $name,
                 )
             );
+
+            session_start();
+            $_SESSION['name'] = $name;
+            $_SESSION['user_id'] = $user_id;
+            $_SESSION['logged_in'] = true;
+            $_SESSION['id'] = session_id();
     
             $json_response = json_encode($response);
     
@@ -37,9 +43,10 @@
         } else {
             $response = array(
                 'success'=> false,
-                'message'=> 'Email and or password are incorrect. User authorization unsuccessful',
+                'message'=> 'Email and or password are incorrect. Login attempt unsuccessful',
             );
 
+            http_response_code(401);
             $json_response = json_encode($response);
     
             echo $json_response;
@@ -54,6 +61,7 @@
             )
         );
 
+        http_response_code(401);
         $json_response = json_encode($response);
 
         echo $json_response;
