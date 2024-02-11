@@ -1,6 +1,8 @@
 <?php
 
-// check query string for error=1 & if it exists display some message saying authentication failed
+session_start();
+
+print_r($_SESSION);
 ?>
 
 

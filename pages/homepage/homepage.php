@@ -1,4 +1,12 @@
-<?php require '../../backend/secure.php'; ?>
+<?php require '../../backend/secure.php';
+
+session_start();
+
+print_r($_SESSION)
+
+// add prevent page back and forward for extra security
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
