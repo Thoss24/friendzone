@@ -1,4 +1,4 @@
-<?php require 'secure.php'; ?>
+<?php require '../../backend/secure.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
