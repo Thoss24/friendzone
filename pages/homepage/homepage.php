@@ -1,4 +1,6 @@
-<?php require '../../backend/secure.php';
+<?php 
+
+require '../../backend/secure.php';
 
 session_start();
 
@@ -17,7 +19,15 @@ print_r($_SESSION)
 </head>
 <body>
 
-    <h1>Home</h1>
+    <header>
+        <nav>
+            <h3>
+                <?php echo "<h3>Welcome {$_SESSION['name']}</h3>"?>
+            </h3>
+           <button id="logout_button">Logout</button>
+        </nav>
+
+    </header>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./homepage.js"></script>

@@ -9,8 +9,8 @@ if ($_SESSION['id'] != session_id() || !$_SESSION['logged_in'] || !isset($_SESSI
     echo isset($_SESSION['logged_in']) ."\n" ."<br>";
     //session_destroy();
 
-    $_SESSION['auth_error'] = 'Error code: 401. Invalid credentials.';
-    header('Location:/friendzone/utility/errors/error.php');
+    $_SESSION['auth_error'] = 'Error code: 401. Your session could not be authenticated.';
+    header('Location:/friendzone/pages/login_and_create_acc/login_page.php');
     exit;
 } 
 

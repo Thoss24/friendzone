@@ -1,10 +1,7 @@
 <?php
-
-session_start();
-
-print_r($_SESSION);
+    session_start();
+    print_r($_SESSION);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +13,19 @@ print_r($_SESSION);
 </head>
 <body>
     <main>
+        <?php
+        if ($_SESSION['auth_error']) {
+            echo 
+            "<div id='session_err_container'>
+            <dialog open id='session_error_window'>
+            <h3>Something went wrong!</h3>
+            <p>{$_SESSION['auth_error']}</p><br>
+            <p>Try logging in again</p>
+            <button id='close_session_error_btn'>Ok</button>
+            </dialog>
+            </div>";
+        }
+        ?>
         <section>
             <div>
             <h1>FriendZone</h1>

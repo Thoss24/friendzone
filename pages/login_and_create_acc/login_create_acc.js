@@ -1,15 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-   
-    $('#login_form').on('submit', (e) => {
-        e.preventDefault()
-        login()
-    });
 
     $('#create_acc_form').on('submit', (e) => {
         e.preventDefault()
         createAccount()
     });
 
+    // handle user create account
     const createAccount = () => {
 
         const email =  $('#create_acc_email')[0]
@@ -40,6 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+    $('#login_form').on('submit', (e) => {
+        e.preventDefault()
+        login()
+    });
+
+    // handle user login
     const login = () => {
         const email =  $('#login_email')[0]
         const password = $('#login_password')[0]
@@ -66,4 +68,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // handle session error
+    let errContainer = $('#session_err_container');
+    let errBtn = $('#close_session_error_btn');
+
+    errBtn.on('click', () => {
+        $.ajax({
+            url: "http://localhost/friendzone/backend/end_session.php",
+            type: "GET",
+            success: (response) => {
+                errContainer.css("display", "none")
+                console.log(response)
+            }
+        })
+    });
+    
 })
