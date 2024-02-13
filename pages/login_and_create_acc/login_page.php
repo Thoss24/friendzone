@@ -1,6 +1,10 @@
 <?php
     session_start();
     print_r($_SESSION);
+
+    if (session_id()) {
+        session_destroy();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +17,7 @@
 </head>
 <body>
     <main>
+        <!-- session authentication error modal -->
         <?php
         if ($_SESSION['auth_error']) {
             echo 
@@ -26,6 +31,15 @@
             </div>";
         }
         ?>
+        <!-- authentication error modal - default display: none -->
+        <div id='modal_container'>
+            <dialog open id='modal_window'>
+            <h3>Something went wrong!</h3>
+            <p id="modal_message"></p><br>
+            <p>Try logging in again</p>
+            <button id='close_modal_btn'>Ok</button>
+            </dialog>
+        </div>
         <section>
             <div>
             <h1>FriendZone</h1>
@@ -33,7 +47,7 @@
             </div>
         <form action="" method="POST" id="login_form">
             <fieldset>
-                <input type="email" id="login_email" placeholder="Email address" autocomplete="username">
+                <input type="email" id="login_email" placeholder="Email address" autocomplete="username" value="<?php echo $_SESSION['email'] ? $_SESSION['email'] : ""?>">
             </fieldset>
             <fieldset>
                 <input type="password" id="login_password" placeholder="Password" autocomplete="current-password">

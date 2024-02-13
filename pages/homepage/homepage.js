@@ -13,4 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $('#logout_button').on('click', logout)
 
+    // detect browser backwards button has been clicked
+    window.onpopstate = (event) => {
+        
+    }
+
 });

@@ -24,14 +24,45 @@ document.addEventListener("DOMContentLoaded", () => {
             dataType: "json",
             data: JSON.stringify(user),
             success: (response) => {
-                console.log(response)
-                window.location = "http://localhost/friendzone/pages/homepage/homepage.php"
+
+                let successContainer = $('#modal_container');
+                let successMessage = $('#modal_message');
+                let successTitle = $('#modal_title');
+                let successPrompt = $('#modal_prompt');
+
+                successContainer.css("display", "flex");
+                successTitle.text("Account successfully created!");
+                successMessage.text(response.message);
+                successPrompt.text("Continue to login page?");
+
+                let authSuccessBtn = $('#close_modal_btn');
+                let authSuccessContainer = $('#modal_container');
+            
+                authSuccessBtn.on('click', () => {
+                    authSuccessContainer.css("display", "none");
+                    window.location = "http://localhost/friendzone/pages/login_and_create_acc/login_page.php"
+                });
             },
             error: (err) => {
-                const errorCode = err.status;
+
                 const message = err.responseJSON.message
 
-                alert(`Error ${errorCode}. ${message}`)
+                let errContainer = $('#modal_container');
+                let errMessage = $('#modal_message');
+                let errTitle = $('#modal_title');
+                let errPrompt = $('#modal_prompt')
+
+                errContainer.css("display", "flex");
+                errTitle.text("Something went wrong!");
+                errMessage.text(message);
+                errPrompt.text("Please try using a different email address");
+
+                let authErrBtn = $('#close_modal_btn');
+                let authErrContainer = $('#modal_container');
+            
+                authErrBtn.on('click', () => {
+                    authErrContainer.css("display", "none");
+                });
             }
         });
     };
@@ -61,10 +92,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location = "http://localhost/friendzone/pages/homepage/homepage.php"
             },
             error: (err) => {
-                const errorCode = err.status;
-                const message = err.responseJSON.message
 
-                alert(`Error ${errorCode}. ${message}`)
+                const errorCode = err.status;
+                const message = err.responseJSON.message;
+
+                let errContainer = $('#modal_container');
+                let errMessage = $('#modal_message');
+
+                errContainer.css("display", "flex");
+                errMessage.text(`Error ${errorCode}. ${message}.`);
+
+                let authErrBtn = $('#close_modal_btn');
+                let authErrContainer = $('#modal_container');
+            
+                authErrBtn.on('click', () => {
+                    authErrContainer.css("display", "none");
+                });
             }
         });
     }

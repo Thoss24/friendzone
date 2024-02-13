@@ -35,12 +35,14 @@
         $stmt->bind_param("sss", $email, $hashed_password, $name);
         $stmt->execute();
 
-        $success_msg = "User ${email} successfully added!";
-        echo json_encode($success_msg);
+        session_start();
+        $_SESSION['email'] = $email;
+
+        $success_msg = "Account {$email} successfully added!";
 
         $response = array(
             'success'=> true,
-            'message'=> 'Account successfully created!',
+            'message'=> $success_msg,
             'data'=> array(
                 'email'=> $email
             ),
