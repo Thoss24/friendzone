@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#homepage_main_content_area {
+    display: flex;
+    flex-direction: row;
+}
+
+#personal_info_section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    padding: 10px;
+    outline: 1px solid black;
+    margin: 5px;
+}
+
+#make_post_section {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 8px;
+    width: 100%;
+}
+
+#make_post_section textarea {
+    padding: 5px;
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+#posts_area {
+    display: flex;
+    flex: 1
+}
+
+#post_text_area {
+    resize: none;
+}
