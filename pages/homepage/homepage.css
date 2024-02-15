@@ -4,10 +4,29 @@
     box-sizing: border-box;
 }
 
+/* body  */
+
+body {
+    background-color: rgba(238, 223, 15, 0.2);
+}
+
+body * {
+    background-color: rgba(255, 255, 255, 1);
+}
+
 #homepage_main_content_area {
     display: flex;
     flex-direction: row;
+    background-color: rgba(238, 223, 15, 0.2);
 }
+
+/* header section  */
+
+header {
+    
+}
+
+/* personal info section  */
 
 #personal_info_section {
     display: flex;
@@ -15,11 +34,18 @@
     align-items: center;
     width: 40%;
     padding: 10px;
-    outline: 1px solid black;
     margin: 5px;
 }
 
-#make_post_section {
+/* Posts section */
+
+#posts_area {
+    display: flex;
+    flex: 1;
+    margin: 5px;
+}
+
+#create_post_section {
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(0, 0, 0, .15);
@@ -27,18 +53,17 @@
     width: 100%;
 }
 
-#make_post_section textarea {
+#create_post_section textarea {
     padding: 5px;
     width: 100%;
     border: none;
     outline: none;
-}
-
-#posts_area {
-    display: flex;
-    flex: 1
-}
-
-#post_text_area {
     resize: none;
+}
+
+#create_post_utility {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding: 4px;
 }

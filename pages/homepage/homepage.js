@@ -31,14 +31,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let postObj = { post: post.val(), user_id: sessionData.userId };
 
-    console.log(postObj)
-
     $.ajax({
       url: "http://localhost/friendzone/backend/posts.php",
       method: "POST",
+      dataType: "text",
       data: JSON.stringify(postObj),
+      success: (response) => {
+        getPosts()
+      },
+      error: (error) => {
+        console.log(error)
+      }
     });
   };
 
-  $("#make_post_btn").on("click", makePost);
+  $("#create_post_btn").on("click", makePost);
+
+  // get posts
+  const getPosts = () => {
+    console.log("Get posts")
+    $.ajax({
+      url: "http://localhost/friendzone/backend/posts.php",
+      method: "GET",
+      dataType: "json",
+      success: (response) => {
+        console.log(response)
+      }, 
+      error: (error) => {
+        console.log(error)
+      }
+    })
+  }
+  
 });

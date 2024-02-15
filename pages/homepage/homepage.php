@@ -4,8 +4,6 @@ require '../../backend/secure.php';
 
 //print_r($_SESSION)
 
-// add prevent page back and forward for extra security
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,10 +15,19 @@ require '../../backend/secure.php';
 </head>
 <body>
     <header>
+        <section id="profile_images_section">
+        <div>
+            <img src="" alt="">
+            Profile Image
+        </div>
+        <div>
+            <img src="" alt="">
+            Banner Image
+        </div>
+        </section>
         <nav>
-            <h3>
-                <?php echo "<h3>Welcome {$_SESSION['name']}</h3>"?>
-            </h3>
+            <button>Update Info</button>
+            <button>Friends</button>
            <button id="logout_button">Logout</button>
         </nav>
     </header>
@@ -29,14 +36,14 @@ require '../../backend/secure.php';
             <h2>Personal Info Here</h2>
         </aside>
         <section id="posts_area">
-            <div id="make_post_section">
+            <div id="create_post_section">
                 <textarea name="post" id="post_text_area" cols="30" rows="5" maxlength="280" placeholder="Whats on your mind?"></textarea>
-                <div>
-                <button id="make_post_btn">Post</button>
+                <div id="create_post_utility">
+                <button id="create_post_btn">Post</button>
                 </div>
             </div>
             <div id="existing_posts_area">
-
+                <!-- posts go here -->
             </div>
         </section>
     </main>
