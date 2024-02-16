@@ -34,6 +34,7 @@
             session_start();
             session_regenerate_id(true);
             $_SESSION['name'] = $name;
+            $_SESSION['email'] = $email;
             $_SESSION['user_id'] = $user_id;
             $_SESSION['logged_in'] = true;
             $_SESSION['id'] = session_id();

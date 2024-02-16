@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $result_data = $result->fetch_all();
 
     echo json_encode($result_data);
-
 }
 
 ?>

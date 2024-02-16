@@ -27,7 +27,7 @@ require '../../backend/secure.php';
         </section>
         <nav>
             <button>Update Info</button>
-            <button>Friends</button>
+            <button><a href="http://localhost/friendzone/pages/friends/find_friends.html">Friends</a></button>
            <button id="logout_button">Logout</button>
         </nav>
     </header>
