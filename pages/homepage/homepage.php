@@ -28,6 +28,7 @@ require '../../backend/secure.php';
         <nav>
             <button>Update Info</button>
             <button><a href="http://localhost/friendzone/pages/friends/find_friends.html">Friends</a></button>
+            <button><a href="http://localhost/friendzone/pages/friends/pending_requests.html">Pending Requests</a></button>
            <button id="logout_button">Logout</button>
         </nav>
     </header>
