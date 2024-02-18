@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         echo "You are already friends with this person";
     }
 
-    if ($result->num_rows == 0 || $result->num_rows > 0 && $result_data['status'] == 'rejected') {
+    if ($result->num_rows == 0 || $result->num_rows == 1 && $result_data['status'] == 'rejected') {
         $stmt = $conn->prepare("INSERT INTO friend_requests (sender_id, recipient_id) VALUES (?, ?)");
         $stmt->bind_param("ss", $sender_id, $recipient_id);
         $stmt->execute();
