@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   let sessionData = {
     userId: 0,
     name: "",
@@ -13,6 +14,22 @@ document.addEventListener("DOMContentLoaded", () => {
       sessionData.name = response.name;
     },
   });
+
+  const getPendingRequests = () => {
+    $.ajax({
+        url: 'http://localhost/friendzone/backend/pending_requests.php',
+        method: 'GET',
+        dataType: 'json',
+        success: (response) => {
+          const friendRequestsBtn = $('#friend_requests_btn');
+          const numOfRequestsElement = $('<strong></strong>');
+          const numberOfRequests = response.length;
+          numOfRequestsElement.text(`: ${numberOfRequests}`);
+          friendRequestsBtn.append(numOfRequestsElement)
+        }
+    })
+  }
+  getPendingRequests()
 
   const logout = () => {
     $.ajax({
@@ -67,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
           // render each post on the page
           postsContainer.empty();
           response.map((post) => {
-            console.log(post)
             let postShell = $(`<div>
             <div id="post_header">
               <img>
