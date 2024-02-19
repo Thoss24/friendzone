@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const getAllUsers = () => {
     $.ajax({
-      url: 'http://localhost/friendzone/backend/friends.php',
+      url: 'http://localhost/friendzone/backend/find_friends.php',
       method: 'GET',
       success: (response) => {
 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             $.ajax({
-              url: 'http://localhost/friendzone/backend/friends.php', // add friend http request
+              url: 'http://localhost/friendzone/backend/find_friends.php', // add friend http request
               method: 'POST',
               data: friendReqInfo
             });

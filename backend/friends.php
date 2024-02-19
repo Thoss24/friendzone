@@ -2,47 +2,46 @@
 
 require 'db_connect.php';
 
-if ($_SERVER['REQUEST_METHOD'] == "GET") {
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     session_start();
 
-    $current_user_name = $_SESSION['email'];
+    $curr_user_id = $_SESSION['user_id'];
+    $curr_user_email = $_SESSION['email'];
 
-    $stmt = $conn->prepare("SELECT user_id, name FROM person WHERE email <> ?");
-    $stmt->bind_param("s", $current_user_name);
+    // $stmt = $conn->prepare('SELECT friend_requests.friend_request_id, friend_requests.sender_id, person.name FROM friend_requests JOIN person WHERE recipient_id = ? AND friend_requests.sender_id = person.user_id');
+
+    $stmt = $conn->prepare(
+    'SELECT person.name, person.user_id, person.email FROM person JOIN friendship 
+    WHERE person.user_id = friendship.person_id1 AND ? = friendship.person_id2
+    OR person.user_id = friendship.person_id2 AND ? = friendship.person_id1
+    AND ? <> person.email');
+
+    $stmt->bind_param("sss", $curr_user_id, $curr_user_id, $curr_user_email);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $result_data = $result->fetch_all();
 
-    echo json_encode($result_data);
+    $get_friends = $stmt->get_result();
+    $friends = $get_friends->fetch_all();
+
+    echo json_encode($friends);
 }
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
 
-    $sender_id = $_POST['sender_id'];
-    $recipient_id = $_POST['recipient_id'];
+    session_start();
 
-    $stmt = $conn->prepare("SELECT * FROM friend_requests WHERE sender_id = ? AND recipient_id = ?");
-    $stmt->bind_param("ss", $sender_id, $recipient_id);
-    $stmt->execute();
+    $curr_user_id = $_SESSION['user_id'];
+    $user_to_del_id = $_GET['id'];
 
-    $result = $stmt->get_result();
-    $result_data = $result->fetch_assoc();
+    $stmt = $conn->prepare(
+    'DELETE FROM friendship WHERE ? = friendship.person_id1 AND ? = friendship.person_id2
+    OR ? = friendship.person_id2 AND ? = friendship.person_id1');
+    $stmt->bind_param("ssss", $curr_user_id, $user_to_del_id, $curr_user_id, $user_to_del_id);
 
-    if ($result->num_rows > 0 && $result_data['status'] == 'pending') {
-        echo "You already have a friend request pending with this person";
-    } 
-    else if ($result->num_rows > 0 && $result_data['status'] == 'accepted') {
-        echo "You are already friends with this person";
+    if ($stmt->execute()) {
+        echo "successfully deleted user from fiends list";
+    } else {
+        echo "Error deleting user: " . $stmt->error;
     }
-
-    if ($result->num_rows == 0 || $result->num_rows == 1 && $result_data['status'] == 'rejected') {
-        $stmt = $conn->prepare("INSERT INTO friend_requests (sender_id, recipient_id) VALUES (?, ?)");
-        $stmt->bind_param("ss", $sender_id, $recipient_id);
-        $stmt->execute();
-
-        echo "Friend request sent successfully";
-    }
-
 }
 
 ?>
