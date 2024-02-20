@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
       method: 'GET',
       success: (response) => {
 
+        console.log(sessionData)
+
         const findFriendsList = $('#friendzone_users');
 
         response.map((user) => {
@@ -36,14 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
           addFriendButton.on("click", () => {
 
             const friendReqInfo = {
-              sender_id: sessionData.userId,
-              recipient_id: user[0]
+              userId: sessionData.userId,
+              recipientId: user[0]
             };
 
             $.ajax({
               url: 'http://localhost/friendzone/backend/find_friends.php', // add friend http request
               method: 'POST',
-              data: friendReqInfo
+              data: JSON.stringify(friendReqInfo)
             });
 
           });

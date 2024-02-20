@@ -18,8 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 }
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    $sender_id = $_POST['sender_id'];
-    $recipient_id = $_POST['recipient_id'];
+    $request_data = json_decode(file_get_contents("php://input"), true);
+
+    $sender_id = $request_data['userId'];
+    $recipient_id = $request_data['recipientId'];
 
     $stmt = $conn->prepare("SELECT * FROM friend_requests WHERE sender_id = ? AND recipient_id = ? OR recipient_id = ? AND sender_id = ?");
     $stmt->bind_param("ssss", $sender_id, $recipient_id, $sender_id, $recipient_id);
@@ -28,22 +30,32 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $result = $stmt->get_result();
     $result_data = $result->fetch_assoc();
 
-    if ($result->num_rows > 0 && $result_data['status'] == 'pending') {
+    if ($result->num_rows > 0) {
         echo "You already have a friend request pending with this person";
-    } 
-    else if ($result->num_rows > 0 && $result_data['status'] == 'accepted') {
-        echo "You are already friends with this person";
-        return;
+    } else if ($result->num_rows == 0) {
+
+        $check_friendship_stmt = $conn->prepare(
+        'SELECT * FROM friendship
+        WHERE ? = person_id1 AND ? = person_id2 
+        OR ? = person_id2 AND ? = person_id1');
+
+        $check_friendship_stmt->bind_param("ssss", $recipient_id, $sender_id, $recipient_id, $sender_id);
+        $check_friendship_stmt->execute();
+
+        $result = $check_friendship_stmt->get_result();
+
+        if ($result->num_rows == 0) {
+
+            $stmt = $conn->prepare("INSERT INTO friend_requests (sender_id, recipient_id) VALUES (?, ?)");
+            $stmt->bind_param("ss", $sender_id, $recipient_id);
+            $stmt->execute();
+
+            echo "Successfully added!";
+
+        } else {
+            echo "You are already friends with this person";
+        }
     }
-
-    if ($result->num_rows == 0 || $result->num_rows == 1 && $result_data['status'] == 'rejected') {
-        $stmt = $conn->prepare("INSERT INTO friend_requests (sender_id, recipient_id) VALUES (?, ?)");
-        $stmt->bind_param("ss", $sender_id, $recipient_id);
-        $stmt->execute();
-
-        echo "Friend request sent successfully";
-    }
-
 }
 
 ?>

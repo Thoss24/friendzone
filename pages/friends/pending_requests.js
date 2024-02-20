@@ -30,9 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 response.map((req) => {
 
+                  console.log(sessionData)
+
                   const friendReqId = req[0];
                   const userId = req[1];
-                  const userName = req[2];
+                  const recipientId = req[2]
+                  const userName = req[3];
 
                   const requestShell = 
                   $(`<li class="pending_request_shell"><h3>${userName}</h3></li>`);
@@ -44,6 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const requestResponse = {
                       friendReqId,
+                      userId,
+                      recipientId,
                       status: 'accepted'
                     };
 
@@ -60,6 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const requestResponse = {
                       friendReqId,
+                      userId,
+                      recipientId,
                       status: 'rejected'
                     };
 
