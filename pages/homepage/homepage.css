@@ -51,6 +51,12 @@ header {
     margin: 5px;
 }
 
+#post_shell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #create_post_section {
     display: flex;
     flex-direction: column;
@@ -72,6 +78,14 @@ header {
     width: 100%;
     justify-content: flex-end;
     padding: 8px;
+}
+
+/* handle notifications modal display */
+#notification_modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
 }
 
 /* responsive mobile */

@@ -2,7 +2,7 @@
 
 require '../../backend/secure.php';
 
-print_r($_SESSION)
+//print_r($_SESSION)
 
 ?>
 <!DOCTYPE html>
@@ -30,6 +30,15 @@ print_r($_SESSION)
             <button><a href="http://localhost/friendzone/pages/friends/find_friends.html">Find Friends</a></button>
             <button><a href="http://localhost/friendzone/pages/friends/friends_list.html">My Friends</a></button>
             <button id="friend_requests_btn"><a href="http://localhost/friendzone/pages/friends/pending_requests.html">Pending Requests</a></button>
+            <div>
+            <button id="notification_button">Notifications</button>
+            <div id="notification_modal" title="Notification dialog">
+                <h3>Notifications</h3>
+                <ul id="notifications_list">
+
+                </ul>
+            </div>
+            </div>
            <button id="logout_button">Logout</button>
         </nav>
     </header>

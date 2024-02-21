@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log(mostRecentPost)
 
-        let postShell = $(`<div>
+        let postShell = $(`<div id="post_shell">
           <div id="post_header">
             <img>
             <div id="post_name_and_date">
@@ -139,5 +139,39 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  
+  // handle notifications modal display
+//   <div id="notification_modal" title="Notification dialog">
+//   <ul id="notifications_list">
+
+//   </ul>
+// #notification_button
+// </div>
+
+
+  $('#notification_button').on('click', () => {
+
+    let offset = $('#notification_button').offset();
+    let height = $('#notification_button').height();
+    let width = $('#notification_button').width();
+    let top = offset.top + height + "px";
+    let right = offset.left + width + "px";
+
+    $('#notification_modal').css({
+      display: 'flex',
+      position: 'absolute',
+      top: top
+    })
+
+    $.ajax({
+      url: "http://localhost/friendzone/backend/notifications.php",
+      method: 'GET',
+      success: (response) => {
+        console.log(response)
+      }
+    })
+
+    $('#notifications_list')
+
+  });
+
 });
