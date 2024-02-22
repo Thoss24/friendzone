@@ -19,12 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+    session_start();
+
     $request_data = json_decode(file_get_contents("php://input"), true);
 
     $req_sender_id = $request_data['userId'];
     $req_recipient_id = $request_data['recipientId'];
     $status = $request_data['status'];
     $req_id = $request_data['friendReqId'];
+    $recipient_name = $_SESSION['name'];
 
     $stmt = $conn->prepare('SELECT * FROM friend_requests WHERE ? = friend_request_id');
     $stmt->bind_param("s", $req_id);
@@ -59,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bind_param("ss", $req_sender_id, $req_recipient_id);
             $stmt->execute();
     
-            $archive_request_stmt = $conn->prepare('INSERT INTO expired_friend_requests (sender_id, recipient_id, status) SELECT ?, ?, ?');
-            $archive_request_stmt->bind_param("sss", $req_sender_id, $req_recipient_id, $status);
+            $archive_request_stmt = $conn->prepare('INSERT INTO expired_friend_requests (sender_id, recipient_id, status, recipient_name) SELECT ?, ?, ?, ?');
+            $archive_request_stmt->bind_param("ssss", $req_sender_id, $req_recipient_id, $status, $recipient_name);
             $archive_request_stmt->execute();
 
             echo "successfully accepted the request";
@@ -79,8 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // reject request to later be given feedback that the request was rejected in notification page
             // create a notification page to highlight all accepted and rejected requests
 
-            $archive_request_stmt = $conn->prepare('INSERT INTO expired_friend_requests (sender_id, recipient_id, status) SELECT ?, ?, ?');
-            $archive_request_stmt->bind_param("sss", $req_sender_id, $req_recipient_id, $status);
+            $archive_request_stmt = $conn->prepare('INSERT INTO expired_friend_requests (sender_id, recipient_id, status, recipient_name) SELECT ?, ?, ?, ?');
+            $archive_request_stmt->bind_param("ssss", $req_sender_id, $req_recipient_id, $status, $recipient_name);
             $archive_request_stmt->execute();
 
             if ($archive_request_stmt->affected_rows > 0) {

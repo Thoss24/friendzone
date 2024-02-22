@@ -147,26 +147,40 @@ document.addEventListener("DOMContentLoaded", () => {
 // #notification_button
 // </div>
 
-
   $('#notification_button').on('click', () => {
 
     let offset = $('#notification_button').offset();
     let height = $('#notification_button').height();
     let width = $('#notification_button').width();
-    let top = offset.top + height + "px";
+    let top = offset.top + height + 5 + "px";
     let right = offset.left + width + "px";
 
-    $('#notification_modal').css({
-      display: 'flex',
+    const notificationList = $('#notifications_list');
+
+    const modal = $('#notification_modal');
+
+    modal.css({
+      display: modal.css("display") == "none" ? "flex" : "none",
       position: 'absolute',
       top: top
-    })
+    });
 
     $.ajax({
       url: "http://localhost/friendzone/backend/notifications.php",
       method: 'GET',
       success: (response) => {
-        console.log(response)
+
+        
+        response.map((item) => {
+
+          const notificationMessage = `Friend request ${item[3]} by ${item[6]}`;
+
+          const notificationShell = $('<div>').addClass("notification_shell");
+          const notificationDescription = $('<h3>').text(notificationMessage);
+
+          notificationShell.append(notificationDescription);
+          notificationList.append(notificationShell)
+      })
       }
     })
 

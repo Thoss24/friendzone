@@ -30,8 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 response.map((req) => {
 
-                  console.log(sessionData)
-
                   const friendReqId = req[0];
                   const userId = req[1];
                   const recipientId = req[2]

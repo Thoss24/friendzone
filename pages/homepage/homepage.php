@@ -25,7 +25,7 @@ require '../../backend/secure.php';
             Banner Image
         </div>
         </section>
-        <nav>
+        <nav id="nav_section">
             <button>Update Info</button>
             <button><a href="http://localhost/friendzone/pages/friends/find_friends.html">Find Friends</a></button>
             <button><a href="http://localhost/friendzone/pages/friends/friends_list.html">My Friends</a></button>

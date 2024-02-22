@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         response.map((user) => {
 
+          console.log(user)
+
           const viewUserProfileBtn = $(`<button class="view_user_page">View Profile</button>`); // create view profile button button
 
           const addFriendButton = $('<button class="add_friend_button">Add Friend</button>') // create add friend button
@@ -39,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const friendReqInfo = {
               userId: sessionData.userId,
-              recipientId: user[0]
+              recipientId: user[0],
             };
 
             $.ajax({

@@ -29,6 +29,11 @@ header {
     
 }
 
+#nav_section {
+    display: flex;
+    flex-direction: row;
+}
+
 /* personal info section  */
 
 #personal_info_section {
@@ -86,6 +91,11 @@ header {
     position: absolute;
     top: 0;
     bottom: 0;
+    height: 150px;
+    margin-right: auto;
+    border-radius: 8px;
+    box-shadow: 2px 0px 6px 0px black;
+    overflow-y: hidden;
 }
 
 /* responsive mobile */
