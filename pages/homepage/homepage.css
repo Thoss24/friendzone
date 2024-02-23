@@ -6,7 +6,12 @@
 
 /* body  */
 
+html {
+    height: 100%;
+}
+
 body {
+    height: 100%;
     background-color: rgba(238, 223, 15, 0.2);
 }
 
@@ -32,6 +37,19 @@ header {
 #nav_section {
     display: flex;
     flex-direction: row;
+}
+
+
+#nav_section button {
+    border: none;
+    border-radius: 8px;
+    padding: 2px;
+    outline: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 3px;
+}
+
+#nav_section button:hover {
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* personal info section  */
@@ -75,7 +93,7 @@ header {
     width: 100%;
     border: none;
     outline: none;
-    resize: none;
+    resize: none
 }
 
 #create_post_utility {
@@ -86,15 +104,26 @@ header {
 }
 
 /* handle notifications modal display */
+
+#notification_button_area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #notification_modal {
     display: none;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
     position: absolute;
     top: 0;
     bottom: 0;
     height: 150px;
-    margin-right: auto;
+    margin-right: 10px;
     border-radius: 8px;
     box-shadow: 2px 0px 6px 0px black;
+    padding: 5px;
     overflow-y: hidden;
 }
 

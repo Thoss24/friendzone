@@ -33,7 +33,7 @@ require '../../backend/secure.php';
             <div>
             <button id="notification_button">Notifications</button>
             <div id="notification_modal" title="Notification dialog">
-                <h3>Notifications</h3>
+                <h3 id="notifications_interface">Notifications</h3>
                 <ul id="notifications_list">
 
                 </ul>

@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   let sessionData = {
     userId: 0,
     name: "",
+    notificationsArr: [],
+    notificationLength: 0,
   };
   // get user id
   $.ajax({
@@ -15,21 +16,42 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   });
 
+  // get notifications
+  $.ajax({
+    url: "http://localhost/friendzone/backend/notifications.php",
+    method: "GET",
+    success: (response) => {
+      for (const i in response) {
+        sessionData.notificationsArr[i] = response[i];
+      }
+      sessionData.notificationLength = response.length;
+      const notificationsBtn = $("#notification_button");
+      const numOfNotificationsElement = $("<strong>").attr('id', 'number_of_requests');
+      const numberOfRequests =
+        sessionData.notificationLength >= 1
+          ? sessionData.notificationLength
+          : '';
+      numOfNotificationsElement.text(`: ${numberOfRequests}`);
+      notificationsBtn.append(numOfNotificationsElement);
+    },
+  });
+
+  // get pending requests
   const getPendingRequests = () => {
     $.ajax({
-        url: 'http://localhost/friendzone/backend/pending_requests.php',
-        method: 'GET',
-        dataType: 'json',
-        success: (response) => {
-          const friendRequestsBtn = $('#friend_requests_btn');
-          const numOfRequestsElement = $('<strong></strong>');
-          const numberOfRequests = response.length;
-          numOfRequestsElement.text(`: ${numberOfRequests}`);
-          friendRequestsBtn.append(numOfRequestsElement)
-        }
-    })
-  }
-  getPendingRequests()
+      url: "http://localhost/friendzone/backend/pending_requests.php",
+      method: "GET",
+      dataType: "json",
+      success: (response) => {
+        const friendRequestsBtn = $("#friend_requests_btn");
+        const numOfRequestsElement = $("<strong>");
+        const numberOfRequests = response.length;
+        numOfRequestsElement.text(`: ${numberOfRequests}`);
+        friendRequestsBtn.append(numOfRequestsElement);
+      },
+    });
+  };
+  getPendingRequests();
 
   const logout = () => {
     $.ajax({
@@ -65,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  // add posts to page
   $("#create_post_btn").on("click", makePost);
 
   const getPostsOnPageLoad = () => {
@@ -84,15 +107,18 @@ document.addEventListener("DOMContentLoaded", () => {
           // render each post on the page
           postsContainer.empty();
           response.map((post) => {
+            const postTime = post[3];
+            const postContent = post[2];
+
             let postShell = $(`<div>
             <div id="post_header">
               <img>
               <div id="post_name_and_date">
                 <h3>${sessionData.name}</h3>
-                <p>${post[3]}</p>
+                <p>${postTime}</p>
               </div>
             </div>
-            <div><p>${post[2]}</p></div>
+            <div><p>${postContent}</p></div>
           </div>`);
 
             postsContainer.append(postShell);
@@ -114,21 +140,24 @@ document.addEventListener("DOMContentLoaded", () => {
       method: "GET",
       dataType: "json",
       success: (response) => {
+        const postContent = mostRecentPost[2];
+        const postTime = mostRecentPost[3];
+
         let postsContainer = $("#existing_posts_area");
 
         let mostRecentPost = response[response.length - 1];
 
-        console.log(mostRecentPost)
+        console.log(mostRecentPost);
 
         let postShell = $(`<div id="post_shell">
           <div id="post_header">
             <img>
             <div id="post_name_and_date">
               <h3>${sessionData.name}</h3>
-              <p>${mostRecentPost[3]}</p>
+              <p>${postTime}</p>
             </div>
           </div>
-          <div><p>${mostRecentPost[2]}</p></div>
+          <div><p>${postContent}</p></div>
         </div>`);
 
         postsContainer.append(postShell);
@@ -139,53 +168,99 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // handle notifications modal display
-//   <div id="notification_modal" title="Notification dialog">
-//   <ul id="notifications_list">
-
-//   </ul>
-// #notification_button
-// </div>
-
-  $('#notification_button').on('click', () => {
-
-    let offset = $('#notification_button').offset();
-    let height = $('#notification_button').height();
-    let width = $('#notification_button').width();
+  // notification display handler logic
+  $("#notification_button").on("click", () => {
+    let offset = $("#notification_button").offset();
+    let height = $("#notification_button").height();
+    let width = $("#notification_button").width();
     let top = offset.top + height + 5 + "px";
     let right = offset.left + width + "px";
 
-    const notificationList = $('#notifications_list');
-
-    const modal = $('#notification_modal');
+    const notificationList = $("#notifications_list");
+    const modal = $("#notification_modal");
 
     modal.css({
-      display: modal.css("display") == "none" ? "flex" : "none",
-      position: 'absolute',
-      top: top
+      display: modal.css("display") === "flex" ? "none" : "flex",
+      position: "absolute",
+      top: top,
     });
 
-    $.ajax({
-      url: "http://localhost/friendzone/backend/notifications.php",
-      method: 'GET',
-      success: (response) => {
+    const notifications = sessionData.notificationsArr.filter(
+      (item) => item[5] !== 1
+    );
 
-        
-        response.map((item) => {
+    notificationList.empty();
 
-          const notificationMessage = `Friend request ${item[3]} by ${item[6]}`;
+    notifications.map((item) => {
+      console.log(item);
 
-          const notificationShell = $('<div>').addClass("notification_shell");
-          const notificationDescription = $('<h3>').text(notificationMessage);
+      const notificationId = item[0];
+      const friendReqStatus = item[3];
+      const recipientName = item[6];
 
-          notificationShell.append(notificationDescription);
-          notificationList.append(notificationShell)
-      })
-      }
-    })
+      const notificationMessage = `Friend request ${friendReqStatus} by ${recipientName}`;
 
-    $('#notifications_list')
+      const notificationShell = $("<div>").addClass("notification_shell");
+      const notificationDescription = $("<p>").text(notificationMessage);
+      const clearNotificationBtn = $("<button>").text("X");
 
+      clearNotificationBtn.css({
+        border: "none",
+        "border-radius": "14px",
+        "background-color": "lightgrey",
+        padding: "2px",
+        fontSize: "10px",
+        display: "flex",
+        "justify-content": "center",
+        "align-items": "center",
+      });
+
+      clearNotificationBtn.on("click", () => {
+        $.ajax({
+          url: `http://localhost/friendzone/backend/notifications.php?id=${notificationId}`,
+          method: "PATCH",
+          success: () => {
+
+            sessionData.notificationsArr[0][5] = 1;
+            notificationShell.remove();
+
+            sessionData.notificationLength--;
+            console.log(sessionData.notificationLength)
+            const numOfNotificationsElement = $('#number_of_requests');
+
+            const numberOfRequests =
+              sessionData.notificationLength >= 1
+                ? sessionData.notificationLength
+                : '';
+
+            console.log(numberOfRequests)
+            numOfNotificationsElement.text(`${numberOfRequests}`);
+            console.log(numOfNotificationsElement[0])
+          },
+        });
+      });
+
+      notificationShell.css({
+        display: "flex",
+        fontSize: "12px",
+        gap: "5px",
+        margin: "4px",
+      });
+
+      notificationShell.append(notificationDescription);
+      notificationShell.append(clearNotificationBtn);
+      notificationList.append(notificationShell);
+    });
+
+    $("#notifications_list");
   });
 
+  // click document body to hide notification modal
+  $(document).on("mouseup", (e) => {
+    const modal = $("#notification_modal");
+    const notificationBtn = $("#notification_button");
+    if (modal.has(e.target).length === 0) {
+      modal.css("display", "none");
+    }
+  });
 });
