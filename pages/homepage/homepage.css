@@ -6,15 +6,6 @@
 
 /* body  */
 
-html {
-    height: 100%;
-}
-
-body {
-    height: 100%;
-    background-color: rgba(238, 223, 15, 0.2);
-}
-
 body * {
     background-color: rgba(255, 255, 255, 1);
 }
@@ -48,10 +39,6 @@ header {
     margin: 3px;
 }
 
-#nav_section button:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
 /* personal info section  */
 
 #personal_info_section {
@@ -63,21 +50,50 @@ header {
     margin: 5px;
 }
 
-/* Posts section */
+/* Posts display section */
+
+.post_shell {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 4px;
+    outline: 0.5px solid rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    width: 100%;
+}
+
+.post_header {
+    
+}
+
+.post_name_and_date {
+    display: flex;
+    flex-direction: column;
+}
+
+.post_content {
+
+}
+
+#existing_posts_area {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    background-color: transparent;
+}
+
+/* Create posts section */
 
 #posts_area {
     display: flex;
     flex-direction: column;
-    background-color: rgba(238, 223, 15, 0.2);
+    background-color: transparent;
     gap: 10px;
     flex: 1;
     margin: 5px;
-}
-
-#post_shell {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 #create_post_section {
@@ -125,6 +141,31 @@ header {
     box-shadow: 2px 0px 6px 0px black;
     padding: 5px;
     overflow-y: hidden;
+}
+
+/* post modal section  */
+
+.post_modal_container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100%;
+    background-color: rgba(138, 138, 138, 0.3);
+    width: 100%;
+    position: fixed;
+}
+
+.post_modal_container dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    padding: 10px;
+    width: 80%;
+    gap: 4px;
+    box-shadow: 2px 2px 6px 5px rgba(0, 0, 0, 30%);
 }
 
 /* responsive mobile */

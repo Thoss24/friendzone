@@ -1,10 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  // global user session data
   let sessionData = {
     userId: 0,
     name: "",
     notificationsArr: [],
     notificationLength: 0,
+    activePostId: 0
   };
+
   // get user id
   $.ajax({
     url: "http://localhost/friendzone/backend/session_data.php",
@@ -31,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionData.notificationLength >= 1
           ? sessionData.notificationLength
           : '';
-      numOfNotificationsElement.text(`: ${numberOfRequests}`);
+      numOfNotificationsElement.text(`${numberOfRequests}`);
       notificationsBtn.append(numOfNotificationsElement);
     },
   });
@@ -60,12 +64,56 @@ document.addEventListener("DOMContentLoaded", () => {
       success: (response) => {
         window.location =
           "http://localhost/friendzone/pages/login_and_create_acc/login_page.php";
-        console.log(response);
       },
     });
   };
 
   $("#logout_button").on("click", logout);
+
+
+  // create comments for post
+  $('#create_comment_btn').on("click", () => {
+
+    console.log(sessionData.activePostId)
+
+    const comment = $('#comment_text_area');
+
+    const commentData = {
+      userId: sessionData.userId,
+      comment: comment.val(),
+      postId: sessionData.activePostId
+    };
+
+    $.ajax({
+      url: `http://localhost/friendzone/backend/posts_and_comments.php?id=${commentData.postId}`,
+      method: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(commentData),
+      success: (response) => {
+        console.log(response)
+      }
+    })
+
+  })
+
+  // get comments for post
+  const getCommentsAndPostData = (postId) => {
+
+    console.log(postId)
+
+    $.ajax({
+      url: `http://localhost/friendzone/backend/posts_and_comments.php?id=${postId}`,
+      method: 'GET',
+      success: (response) => {
+        console.log(response)
+        // display post info and comments for post
+      },
+      error: (error) => [
+        console.log(error)
+      ]
+    })
+    
+  };
 
   // make new post
   const makePost = () => {
@@ -96,8 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
       method: "GET",
       dataType: "json",
       success: (response) => {
-        let noPosts = $('<div id="no_posts"><h3>No posts to show</h3></div>');
-        let postsContainer = $("#existing_posts_area");
+        const noPosts = $('<div id="no_posts"><h3>No posts to show</h3></div>');
+        const postsContainer = $("#existing_posts_area");
 
         if (response.length === 0) {
           postsContainer.append(noPosts);
@@ -107,21 +155,33 @@ document.addEventListener("DOMContentLoaded", () => {
           // render each post on the page
           postsContainer.empty();
           response.map((post) => {
+            console.log(post)
             const postTime = post[3];
             const postContent = post[2];
+            const postId = post[0];
 
-            let postShell = $(`<div>
-            <div id="post_header">
-              <img>
-              <div id="post_name_and_date">
+            const postShell = $('<div>').addClass('post_shell');
+
+            const postShellContent = $(`
+            <div class="post_header">
+              <div class="post_name_and_date">
                 <h3>${sessionData.name}</h3>
                 <p>${postTime}</p>
               </div>
             </div>
-            <div><p>${postContent}</p></div>
-          </div>`);
+            <div class="post_content"><p>${postContent}</p></div>`
+          );
 
-            postsContainer.append(postShell);
+          postShell.append(postShellContent)
+
+          postShell.on("click", () => {
+            const postModal = $('.post_modal_container');
+            postModal.css("display", "flex");
+            sessionData.activePostId = postId
+            getCommentsAndPostData(postId)
+          })
+
+          postsContainer.append(postShell);
           });
         }
       },
@@ -134,32 +194,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // get posts
   const getPosts = () => {
-    console.log("Get posts");
     $.ajax({
       url: "http://localhost/friendzone/backend/posts.php",
       method: "GET",
       dataType: "json",
       success: (response) => {
+        console.log(response)
+        const postsContainer = $("#existing_posts_area");
+        const mostRecentPost = response[response.length - 1];
+
         const postContent = mostRecentPost[2];
         const postTime = mostRecentPost[3];
+        const postId = mostRecentPost[0];
 
-        let postsContainer = $("#existing_posts_area");
-
-        let mostRecentPost = response[response.length - 1];
-
-        console.log(mostRecentPost);
-
-        let postShell = $(`<div id="post_shell">
-          <div id="post_header">
-            <img>
-            <div id="post_name_and_date">
-              <h3>${sessionData.name}</h3>
-              <p>${postTime}</p>
-            </div>
+        const postShell = $(`<div id=${postId} class="post_shell">
+        <div class="post_header">
+          <div class="post_name_and_date">
+            <h3>${sessionData.name}</h3>
+            <p>${postTime}</p>
           </div>
-          <div><p>${postContent}</p></div>
+        </div>
+        <div class="post_content"><p>${postContent}</p></div>
         </div>`);
 
+        $(`#${postId}`).on("click", () => {
+          const postModal = $('.post_modal_container');
+          postModal.css("display", "flex");
+          sessionData.activePostId = postId
+          getCommentsAndPostData(postId)
+        })
         postsContainer.append(postShell);
       },
       error: (error) => {
@@ -263,4 +326,15 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.css("display", "none");
     }
   });
+
+
+  // get comments for post
+
+
+  // hide post handler
+  $('#close_modal_btn').on("click", () => {
+    const postModal = $('.post_modal_container');
+    postModal.css("display", "none");
+  })
+
 });

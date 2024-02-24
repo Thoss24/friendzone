@@ -14,6 +14,23 @@ require '../../backend/secure.php';
     <title>Home</title>
 </head>
 <body>
+    <!-- start post modal -->
+    <div class='post_modal_container'>
+        <dialog open id='modal_window'>
+        <p id="modal_message"></p><br>
+        <div id="create_post_section">
+            <textarea name="post" id="comment_text_area" cols="30" rows="4" maxlength="250" placeholder="Add comment."></textarea>
+            <div id="create_post_utility">
+            <button id="create_comment_btn">Post</button>
+            </div>
+        </div>
+        <div id="existing_comments">
+        </div>
+        <button id='close_modal_btn'>Close</button>
+        </dialog>
+    </div>
+    <!-- end post modal -->
+    <!-- start header section -->
     <header>
         <section id="profile_images_section">
         <div>
@@ -42,6 +59,8 @@ require '../../backend/secure.php';
            <button id="logout_button">Logout</button>
         </nav>
     </header>
+    <!-- end header section  -->
+    <!-- start main content body section -->
     <main id="homepage_main_content_area">
         <aside id="personal_info_section">
             <h2>Personal Info Here</h2>
@@ -58,7 +77,7 @@ require '../../backend/secure.php';
             </div>
         </section>
     </main>
-
+    <!-- end main content body section -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./homepage.js"></script>
 </body>
