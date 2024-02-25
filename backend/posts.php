@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     session_start();
 
-    $stmt = $conn->prepare("SELECT * FROM post WHERE user_id = ?");
+    $stmt = $conn->prepare("SELECT * FROM post WHERE user_id = ? ORDER BY created_at DESC");
     $user_id = $_SESSION['user_id'];
     $stmt->bind_param("s", $user_id);
     $stmt->execute();

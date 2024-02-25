@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* body  */
+
+body * {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+#homepage_main_content_area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(238, 223, 15, 0.2);
+    padding: 8px;
+}
+
+/* Posts display section */
+
+.post_shell {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 4px;
+    outline: 0.5px solid rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    width: 100%;
+}
+
+.post_header {
+    
+}
+
+.post_name_and_date {
+    display: flex;
+    flex-direction: column;
+}
+
+.post_content {
+
+}
+
+#existing_posts_area {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 5px;
+    background-color: transparent;
+}
+
+/* Create posts section */
+
+#posts_area {
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    gap: 10px;
+    width: 100%;
+    flex: 1;
+    margin: 5px;
+}
+
+#create_post_section {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 8px;
+    width: 100%;
+}
+
+#create_post_section textarea {
+    padding: 5px;
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none
+}
+
+#create_post_utility {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding: 8px;
+}
+
+/* post modal section  */
+
+.post_modal_container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100%;
+    background-color: rgba(138, 138, 138, 0.3);
+    width: 100%;
+    position: fixed;
+}
+
+.post_modal_container dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    padding: 10px;
+    width: 80%;
+    gap: 4px;
+    box-shadow: 2px 2px 6px 5px rgba(0, 0, 0, 30%);
+}
+
+/* responsive mobile */
+
+@media only screen and (max-width: 400px) {
+
+    #homepage_main_content_area {
+        flex-direction: column;
+    }
+
+    #posts_area {
+        width: 100%;
+    }
+
+}

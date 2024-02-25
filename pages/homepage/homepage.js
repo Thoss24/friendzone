@@ -108,9 +108,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(response)
         // display post info and comments for post
       },
-      error: (error) => [
+      error: (error) => {
         console.log(error)
-      ]
+      }
     })
     
   };
@@ -327,9 +327,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-
   // get comments for post
-
 
   // hide post handler
   $('#close_modal_btn').on("click", () => {

@@ -21,7 +21,7 @@ require '../../backend/secure.php';
         <div id="create_post_section">
             <textarea name="post" id="comment_text_area" cols="30" rows="4" maxlength="250" placeholder="Add comment."></textarea>
             <div id="create_post_utility">
-            <button id="create_comment_btn">Post</button>
+            <button id="create_comment_btn">Add comment</button>
             </div>
         </div>
         <div id="existing_comments">
@@ -46,6 +46,7 @@ require '../../backend/secure.php';
             <button>Update Info</button>
             <button><a href="http://localhost/friendzone/pages/friends/find_friends.html">Find Friends</a></button>
             <button><a href="http://localhost/friendzone/pages/friends/friends_list.html">My Friends</a></button>
+            <button><a href="http://localhost/friendzone/pages/feed/feed.html">My Feed</a></button>
             <button id="friend_requests_btn"><a href="http://localhost/friendzone/pages/friends/pending_requests.html">Pending Requests</a></button>
             <div>
             <button id="notification_button">Notifications</button>
