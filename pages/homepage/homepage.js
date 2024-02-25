@@ -1,12 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   // global user session data
   let sessionData = {
     userId: 0,
     name: "",
     notificationsArr: [],
     notificationLength: 0,
-    activePostId: 0
+    activePostId: 0,
   };
 
   // get user id
@@ -30,11 +29,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       sessionData.notificationLength = response.length;
       const notificationsBtn = $("#notification_button");
-      const numOfNotificationsElement = $("<strong>").attr('id', 'number_of_requests');
+      const numOfNotificationsElement = $("<strong>").attr(
+        "id",
+        "number_of_requests"
+      );
       const numberOfRequests =
         sessionData.notificationLength >= 1
           ? sessionData.notificationLength
-          : '';
+          : "";
       numOfNotificationsElement.text(`${numberOfRequests}`);
       notificationsBtn.append(numOfNotificationsElement);
     },
@@ -70,49 +72,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("#logout_button").on("click", logout);
 
-
   // create comments for post
-  $('#create_comment_btn').on("click", () => {
+  $("#create_comment_btn").on("click", () => {
+    console.log(sessionData.activePostId);
 
-    console.log(sessionData.activePostId)
-
-    const comment = $('#comment_text_area');
+    const comment = $("#comment_text_area");
 
     const commentData = {
       userId: sessionData.userId,
       comment: comment.val(),
-      postId: sessionData.activePostId
+      postId: sessionData.activePostId,
     };
 
     $.ajax({
       url: `http://localhost/friendzone/backend/posts_and_comments.php?id=${commentData.postId}`,
-      method: 'POST',
-      dataType: 'json',
+      method: "POST",
+      dataType: "json",
       data: JSON.stringify(commentData),
       success: (response) => {
-        console.log(response)
-      }
-    })
-
-  })
+        console.log(response);
+      },
+    });
+  });
 
   // get comments for post
   const getCommentsAndPostData = (postId) => {
-
-    console.log(postId)
+    console.log(postId);
 
     $.ajax({
       url: `http://localhost/friendzone/backend/posts_and_comments.php?id=${postId}`,
-      method: 'GET',
+      method: "GET",
       success: (response) => {
-        console.log(response)
+        console.log(response);
         // display post info and comments for post
       },
       error: (error) => {
-        console.log(error)
+        console.log(error);
+      },
+    });
+  };
+
+  const deletePost = (postId) => {
+    $.ajax({
+      url: `http://localhost/friendzone/backend/posts.php?id=${postId}`,
+      method: 'DELETE',
+      success: (response) => {
+        console.log(response)
       }
     })
-    
   };
 
   // make new post
@@ -155,33 +162,44 @@ document.addEventListener("DOMContentLoaded", () => {
           // render each post on the page
           postsContainer.empty();
           response.map((post) => {
-            console.log(post)
+            console.log(post);
             const postTime = post[3];
             const postContent = post[2];
             const postId = post[0];
 
-            const postShell = $('<div>').addClass('post_shell');
-
-            const postShellContent = $(`
+            const postShell = $(`<div id=${postId} class="post_shell">
             <div class="post_header">
               <div class="post_name_and_date">
                 <h3>${sessionData.name}</h3>
                 <p>${postTime}</p>
               </div>
             </div>
-            <div class="post_content"><p>${postContent}</p></div>`
-          );
+            <div class="post_content"><p>${postContent}</p></div>
+            </div>`);
 
-          postShell.append(postShellContent)
+            const deletePostBtn = $("<button>").addClass("delete_post_btn");
+            deletePostBtn.text("Delete Post")
 
-          postShell.on("click", () => {
-            const postModal = $('.post_modal_container');
-            postModal.css("display", "flex");
-            sessionData.activePostId = postId
-            getCommentsAndPostData(postId)
-          })
+            postShell.on("click", () => {
+              const postModal = $(".post_modal_container");
+              postModal.css("display", "flex");
+              sessionData.activePostId = postId;
+              getCommentsAndPostData(postId);
+            });
 
-          postsContainer.append(postShell);
+            postShell.append(deletePostBtn);
+
+            deletePostBtn.on("click", () => {
+              sessionData.activePostId = postId;
+              const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+
+              if (confirmDelete) {
+                deletePost(postId)
+              } 
+            });
+
+            postsContainer.append(postShell);
+
           });
         }
       },
@@ -199,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
       method: "GET",
       dataType: "json",
       success: (response) => {
-        console.log(response)
+        console.log(response);
         const postsContainer = $("#existing_posts_area");
         const mostRecentPost = response[response.length - 1];
 
@@ -215,15 +233,34 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
         <div class="post_content"><p>${postContent}</p></div>
+        <button class="delete_post_btn">Delete Post</button>
         </div>`);
 
+        const deletePostBtn = $("<button>").addClass("delete_post_btn");
+        deletePostBtn.text("Delete Post")
+
         $(`#${postId}`).on("click", () => {
-          const postModal = $('.post_modal_container');
+          const postModal = $(".post_modal_container");
           postModal.css("display", "flex");
-          sessionData.activePostId = postId
-          getCommentsAndPostData(postId)
-        })
+          sessionData.activePostId = postId;
+          getCommentsAndPostData(postId);
+        });
+
+        postShell.append(deletePostBtn);
+
+        deletePostBtn.on("click", () => {
+          sessionData.activePostId = postId;
+
+          const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+
+          if (confirmDelete) {
+            deletePost(postId)
+          } 
+
+        });
+
         postsContainer.append(postShell);
+
       },
       error: (error) => {
         console.log(error);
@@ -283,22 +320,21 @@ document.addEventListener("DOMContentLoaded", () => {
           url: `http://localhost/friendzone/backend/notifications.php?id=${notificationId}`,
           method: "PATCH",
           success: () => {
-
             sessionData.notificationsArr[0][5] = 1;
             notificationShell.remove();
 
             sessionData.notificationLength--;
-            console.log(sessionData.notificationLength)
-            const numOfNotificationsElement = $('#number_of_requests');
+            console.log(sessionData.notificationLength);
+            const numOfNotificationsElement = $("#number_of_requests");
 
             const numberOfRequests =
               sessionData.notificationLength >= 1
                 ? sessionData.notificationLength
-                : '';
+                : "";
 
-            console.log(numberOfRequests)
+            console.log(numberOfRequests);
             numOfNotificationsElement.text(`${numberOfRequests}`);
-            console.log(numOfNotificationsElement[0])
+            console.log(numOfNotificationsElement[0]);
           },
         });
       });
@@ -327,12 +363,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // get comments for post
-
   // hide post handler
-  $('#close_modal_btn').on("click", () => {
-    const postModal = $('.post_modal_container');
+  $("#close_modal_btn").on("click", () => {
+    const postModal = $(".post_modal_container");
     postModal.css("display", "none");
-  })
+  });
 
+  // delete post
 });

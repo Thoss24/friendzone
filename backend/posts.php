@@ -27,5 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     echo json_encode($result_data);
 }
+if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
+
+    $user_id = $_GET['id'];
+
+    $stmt = $conn->prepare('DELETE FROM post WHERE post_id = ?');
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+}
 
 ?>
