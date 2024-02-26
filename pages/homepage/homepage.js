@@ -73,9 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#logout_button").on("click", logout);
 
   // create comments for post
-  $("#create_comment_btn").on("click", () => {
-    console.log(sessionData.activePostId);
-
+  const makeComment = () => {
     const comment = $("#comment_text_area");
 
     const commentData = {
@@ -87,24 +85,99 @@ document.addEventListener("DOMContentLoaded", () => {
     $.ajax({
       url: `http://localhost/friendzone/backend/posts_and_comments.php?id=${commentData.postId}`,
       method: "POST",
-      dataType: "json",
+      dataType: "text",
       data: JSON.stringify(commentData),
-      success: (response) => {
-        console.log(response);
+      success: () => {
+        getComments()
       },
     });
-  });
+  };
+
+  const getComments = () => {
+
+    const existingComments = $("#existing_comments");
+
+    $.ajax({
+      url: `http://localhost/friendzone/backend/posts_and_comments.php?id=${sessionData.activePostId}`,
+      method: "GET",
+      success: (response) => {
+
+        const mostRecentComment = response[response.length - 1]
+
+        console.log(response)
+
+        const userPosterName = $("#user_post_name");
+        const userPosterText = $("#user_post_text");
+        const userPostDate = $("#user_post_date");
+
+        const pId = mostRecentComment[0];
+        const postText = mostRecentComment[1];
+        const postDate = mostRecentComment[2];
+        const postComment = mostRecentComment[3];
+        const commentId = mostRecentComment[4];
+        const postCommenterId = mostRecentComment[5];
+        const postCommenterName = mostRecentComment[6];
+
+        if (sessionData.activePostId === pId) {
+          userPosterName.text(sessionData.name);
+          userPosterText.text(postText);
+          userPostDate.text(postDate);
+
+          const commentShell = $("<div>").addClass("comment_shell");
+          const commenterName = $("<h4>").text(postCommenterName);
+          const postCommentText = $("<p>").text(postComment);
+
+          commentShell.append(commenterName);
+          commentShell.append(postCommentText);
+          existingComments.append(commentShell);
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  $("#create_comment_btn").on("click", makeComment);
 
   // get comments for post
   const getCommentsAndPostData = (postId) => {
     console.log(postId);
 
+    const existingComments = $("#existing_comments");
+    existingComments.empty();
+
     $.ajax({
       url: `http://localhost/friendzone/backend/posts_and_comments.php?id=${postId}`,
       method: "GET",
       success: (response) => {
-        console.log(response);
-        // display post info and comments for post
+        const userPosterName = $("#user_post_name");
+        const userPosterText = $("#user_post_text");
+        const userPostDate = $("#user_post_date");
+
+        response.map((item) => {
+          const pId = item[0];
+          const postText = item[1];
+          const postDate = item[2];
+          const postComment = item[3];
+          const commentId = item[4];
+          const postCommenterId = item[5];
+          const postCommenterName = item[6];
+
+          if (postId === pId) {
+            userPosterName.text(sessionData.name);
+            userPosterText.text(postText);
+            userPostDate.text(postDate);
+
+            const commentShell = $("<div>").addClass("comment_shell");
+            const commenterName = $("<h4>").text(postCommenterName);
+            const postCommentText = $("<p>").text(postComment);
+
+            commentShell.append(commenterName);
+            commentShell.append(postCommentText);
+            existingComments.append(commentShell);
+          }
+        });
       },
       error: (error) => {
         console.log(error);
@@ -115,11 +188,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const deletePost = (postId) => {
     $.ajax({
       url: `http://localhost/friendzone/backend/posts.php?id=${postId}`,
-      method: 'DELETE',
+      method: "DELETE",
       success: (response) => {
-        console.log(response)
-      }
-    })
+        console.log(response);
+      },
+    });
   };
 
   // make new post
@@ -178,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>`);
 
             const deletePostBtn = $("<button>").addClass("delete_post_btn");
-            deletePostBtn.text("Delete Post")
+            deletePostBtn.text("Delete Post");
 
             postShell.on("click", () => {
               const postModal = $(".post_modal_container");
@@ -191,15 +264,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             deletePostBtn.on("click", () => {
               sessionData.activePostId = postId;
-              const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+              const confirmDelete = window.confirm(
+                "Are you sure you want to delete this post?"
+              );
 
               if (confirmDelete) {
-                deletePost(postId)
-              } 
+                deletePost(postId);
+              }
             });
 
             postsContainer.append(postShell);
-
           });
         }
       },
@@ -237,7 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>`);
 
         const deletePostBtn = $("<button>").addClass("delete_post_btn");
-        deletePostBtn.text("Delete Post")
+        deletePostBtn.text("Delete Post");
 
         $(`#${postId}`).on("click", () => {
           const postModal = $(".post_modal_container");
@@ -251,16 +325,16 @@ document.addEventListener("DOMContentLoaded", () => {
         deletePostBtn.on("click", () => {
           sessionData.activePostId = postId;
 
-          const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+          const confirmDelete = window.confirm(
+            "Are you sure you want to delete this post?"
+          );
 
           if (confirmDelete) {
-            deletePost(postId)
-          } 
-
+            deletePost(postId);
+          }
         });
 
         postsContainer.append(postShell);
-
       },
       error: (error) => {
         console.log(error);

@@ -85,6 +85,29 @@ header {
     background-color: transparent;
 }
 
+/* comments display section */
+
+#existing_comments {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.comment_shell {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 4px;
+    border-radius: 8px;
+    background-color: rgba(131, 131, 131, 0.15);
+}
+
+.comment_shell * {
+    background-color: transparent
+}
+
 /* Create posts section */
 
 #posts_area {

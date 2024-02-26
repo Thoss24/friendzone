@@ -31,9 +31,16 @@ if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
 
     $user_id = $_GET['id'];
 
-    $stmt = $conn->prepare('DELETE FROM post WHERE post_id = ?');
-    $stmt->bind_param("s", $user_id);
-    $stmt->execute();
+    $delete_comments_stmt = $conn->prepare('DELETE FROM post_comment WHERE post_id = ?');
+    $delete_comments_stmt->bind_param("s", $user_id);
+    $delete_comments_stmt->execute();
+
+    $deleted_rows = $delete_comments_stmt->num_rows();
+
+    $delete_post_stmt = $conn->prepare('DELETE FROM post WHERE post_id = ?');
+    $delete_post_stmt->bind_param("s", $user_id);
+    $delete_post_stmt->execute();
+
 }
 
 ?>

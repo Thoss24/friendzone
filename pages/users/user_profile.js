@@ -44,14 +44,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // get comments for post
   const getCommentsAndPostData = (postId) => {
-    console.log(postId);
+    
+    const existingComments = $('#existing_comments');
+    existingComments.empty();
 
     $.ajax({
       url: `http://localhost/friendzone/backend/posts_and_comments.php?id=${postId}`,
       method: "GET",
       success: (response) => {
-        console.log(response);
-        // display post info and comments for post
+
+        const userPosterName = $('#user_post_name');
+        const userPosterText = $('#user_post_text');
+        const userPostDate = $('#user_post_date');
+
+        response.map((item) => {
+
+          const pId = item[0]
+          const postText = item[1]
+          const postDate = item[2]
+          const postComment = item[3]
+          const commentId = item[4]
+          const postCommenterId = item[5]
+          const postCommenterName = item[6]
+
+          if (postId === pId) {
+            userPosterName.text(sessionData.name)
+            userPosterText.text(postText)
+            userPostDate.text(postDate)
+
+            const commentShell = $('<div>').addClass('comment_shell');
+            const commenterName = $('<h4>').text(postCommenterName);
+            const postCommentText = $('<p>').text(postComment);
+  
+            commentShell.append(commenterName)
+            commentShell.append(postCommentText)
+            existingComments.append(commentShell)
+          }
+
+        })
       },
       error: (error) => {
         console.log(error);

@@ -1,55 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./user_profile.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./user_profile.css" rel="stylesheet" />
     <title>Home</title>
-</head>
-<body>
+  </head>
+  <body>
     <!-- start post modal -->
-    <div class='post_modal_container'>
-        <dialog open id='modal_window'>
-        <p id="modal_message"></p><br>
+    <div class="post_modal_container">
+      <dialog open id="modal_window">
+        <section>
+          <div>
+            <h3 id="user_post_name"></h3>
+            <p id="user_post_date"></p>
+          </div>
+          <p id="user_post_text"></p>
+        </section>
+        <p id="modal_message"></p>
+        <br />
         <div id="create_post_section">
-            <textarea name="post" id="comment_text_area" cols="30" rows="4" maxlength="250" placeholder="Add comment."></textarea>
-            <div id="create_post_utility">
+          <textarea
+            name="post"
+            id="comment_text_area"
+            cols="30"
+            rows="4"
+            maxlength="250"
+            placeholder="Add comment."
+          ></textarea>
+          <div id="create_post_utility">
             <button id="create_comment_btn">Add comment</button>
-            </div>
+          </div>
         </div>
-        <div id="existing_comments">
-        </div>
-        <button id='close_modal_btn'>Close</button>
-        </dialog>
+        <div id="existing_comments"></div>
+        <button id="close_modal_btn">Close</button>
+      </dialog>
     </div>
     <!-- end post modal -->
     <!-- start header section -->
     <header>
-        <section id="profile_images_section">
+      <section id="profile_images_section">
         <div>
-            <img src="" alt="">
-            Profile Image
+          <img src="" alt="" />
+          Profile Image
         </div>
         <div>
-            <img src="" alt="">
-            Banner Image
+          <img src="" alt="" />
+          Banner Image
         </div>
-        </section>
+      </section>
     </header>
     <!-- end header section  -->
     <!-- start main content body section -->
     <main id="homepage_main_content_area">
-        <aside id="personal_info_section">
-            <h2>Personal Info Here</h2>
-        </aside>
-        <section id="posts_area">
-            <div id="existing_posts_area">
-                <!-- posts go here -->
-            </div>
-        </section>
+      <aside id="personal_info_section">
+        <h2>Personal Info Here</h2>
+      </aside>
+      <section id="posts_area">
+        <div id="existing_posts_area">
+          <!-- posts go here -->
+        </div>
+      </section>
     </main>
     <!-- end main content body section -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./user_profile.js"></script>
-</body>
+  </body>
 </html>

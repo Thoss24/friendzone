@@ -17,6 +17,13 @@ require '../../backend/secure.php';
     <!-- start post modal -->
     <div class='post_modal_container'>
         <dialog open id='modal_window'>
+        <section>
+            <div>
+        <h3 id="user_post_name"></h3>
+        <p id="user_post_date"></p>
+        </div>
+        <p id="user_post_text"></p>
+        </section>
         <p id="modal_message"></p><br>
         <div id="create_post_section">
             <textarea name="post" id="comment_text_area" cols="30" rows="4" maxlength="250" placeholder="Add comment."></textarea>

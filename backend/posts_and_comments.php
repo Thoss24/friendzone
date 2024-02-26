@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $post_id = $_GET['id'];
     
     $stmt = $conn->prepare(
-    'SELECT p.post_content, p.created_at, pc.comment, pc.comment_id, pc.user_id, person.name 
+    'SELECT p.post_id, p.post_content, p.created_at, pc.comment, pc.comment_id, pc.user_id, person.name 
     FROM post p 
     JOIN post_comment pc ON p.post_id = pc.post_id
     JOIN person ON person.user_id = pc.user_id
@@ -36,6 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute();
 
     $result = $stmt->get_result();
+
+    echo "success";
 
 }
 
