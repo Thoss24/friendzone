@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./friends.css">
     <title>Pending Requests</title>
-</head>
-<body>
-    
-    <section>
-        <ul id="pending_requests_list">
-            
-        </ul>
-    </section>
+  </head>
+  <body>
+    <div id="container">
+      <header>
+        <nav id="nav_section">
+          <button>
+            <a href="http://localhost/friendzone/pages/homepage/homepage.php"
+              >Home</a
+            >
+          </button>
+        </nav>
+      </header>
 
+      <section id="pending_requests_container">
+        <h2>Pending Requests</h2>
+        <ul id="pending_requests_list"></ul>
+      </section>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./pending_requests.js"></script>
-</body>
+  </body>
 </html>

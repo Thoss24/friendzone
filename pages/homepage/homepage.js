@@ -286,18 +286,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // get posts
   const getPosts = () => {
+    const postsContainer = $("#existing_posts_area");
+    postsContainer.empty()
     $.ajax({
       url: "http://localhost/friendzone/backend/posts.php",
       method: "GET",
       dataType: "json",
       success: (response) => {
         console.log(response);
-        const postsContainer = $("#existing_posts_area");
-        const mostRecentPost = response[response.length - 1];
+        const mostRecentPost = response[0];
 
         const postContent = mostRecentPost[2];
         const postTime = mostRecentPost[3];
         const postId = mostRecentPost[0];
+
+        console.log(mostRecentPost)
 
         const postShell = $(`<div id=${postId} class="post_shell">
         <div class="post_header">
@@ -307,7 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
         <div class="post_content"><p>${postContent}</p></div>
-        <button class="delete_post_btn">Delete Post</button>
         </div>`);
 
         const deletePostBtn = $("<button>").addClass("delete_post_btn");

@@ -13,7 +13,8 @@ require '../../backend/secure.php';
     <link href="./homepage.css" rel="stylesheet">
     <title>Home</title>
 </head>
-<body>
+<body >
+    <div id="container">
     <!-- start post modal -->
     <div class='post_modal_container'>
         <dialog open id='modal_window'>
@@ -39,16 +40,6 @@ require '../../backend/secure.php';
     <!-- end post modal -->
     <!-- start header section -->
     <header>
-        <section id="profile_images_section">
-        <div>
-            <img src="" alt="">
-            Profile Image
-        </div>
-        <div>
-            <img src="" alt="">
-            Banner Image
-        </div>
-        </section>
         <nav id="nav_section">
             <button>Update Info</button>
             <button><a href="http://localhost/friendzone/pages/friends/find_friends.html">Find Friends</a></button>
@@ -85,6 +76,7 @@ require '../../backend/secure.php';
             </div>
         </section>
     </main>
+    </div>
     <!-- end main content body section -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./homepage.js"></script>

@@ -7,6 +7,7 @@
     <title>My Feed</title>
   </head>
   <body>
+    <div id="container">
     <!-- start post modal -->
     <div class="post_modal_container">
       <dialog open id="modal_window">
@@ -38,21 +39,24 @@
     </div>
     <!-- end post modal -->
     <!-- start main content body section -->
-    <main id="homepage_main_content_area">
-      <section>
-        <h2>My Feed</h2>
+    <header>
+      <nav id="nav_section">
         <button>
           <a href="http://localhost/friendzone/pages/homepage/homepage.php"
             >Home</a
           >
         </button>
-      </section>
+      </nav>
+    </header>
+    <main id="homepage_main_content_area">
       <section id="posts_area">
+        <h2>My Feed</h2>
         <div id="existing_posts_area">
           <!-- posts go here -->
         </div>
       </section>
     </main>
+  </div>
     <!-- end main content body section -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./feed.js"></script>

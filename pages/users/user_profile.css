@@ -8,15 +8,53 @@
 
 body * {
     background-color: rgba(255, 255, 255, 1);
+
 }
 
 #homepage_main_content_area {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* align-items: center; */
+    padding: 8px;   
+    background-color:transparent
+}
+
+#homepage_main_content_area aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    background-color: rgba(238, 223, 15, 0.2);
     padding: 8px;
+}
+
+#container {
+    height: 100vh;
+    background-color: rgba(238, 223, 15, 0.2);
+}
+
+/* header section  */
+
+header {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+}
+
+#nav_section {
+    display: flex;
+    flex-direction: row;
+}
+
+
+#nav_section button {
+    border: none;
+    border-radius: 8px;
+    padding: 2px;
+    outline: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 3px;
 }
 
 /* Posts display section */
@@ -64,7 +102,7 @@ body * {
     gap: 10px;
     width: 100%;
     flex: 1;
-    margin: 5px;
+    margin-top: 10px;
 }
 
 #create_post_section {

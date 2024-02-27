@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./friends.css" />
     <title>Find Friends</title>
-</head>
-<body>
-
-    <section>
+  </head>
+  <body>
+    <div id="container">
+      <header>
+        <nav id="nav_section">
+          <button>
+            <a href="http://localhost/friendzone/pages/homepage/homepage.php"
+              >Home</a
+            >
+          </button>
+        </nav>
+      </header>
+      <section id="find_friends_container">
         <h2>Find Friends</h2>
-        <ul id="friendzone_users">
-
-        </ul>
-    </section>
+        <ul id="friendzone_users"></ul>
+      </section>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./find_friends.js"></script>
-</body>
+  </body>
 </html>

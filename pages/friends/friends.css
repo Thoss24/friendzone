@@ -1,0 +1,104 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    height: 100vh;
+    background-color: rgba(238, 223, 15, 0.2);
+}
+
+header {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+}
+
+header button{
+    border-radius: 8px;
+    padding: 2px;
+    border: none;
+}
+
+/* friends list */
+
+#friends_list_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+#friends_list_container h2 {
+  text-decoration: underline;
+}
+
+#friends_list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    list-style-type: none;
+    gap: 15px;
+}
+
+/* find friends */
+
+#find_friends_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+#find_friends_container h2 {
+    text-decoration: underline;
+}
+
+#friendzone_users {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    list-style-type: none;
+    gap: 15px;
+}
+
+#friendzone_users li button {
+    margin: 3px;
+}
+
+/* pending requests */
+
+#pending_requests_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+#pending_requests_container h2 {
+    text-decoration: underline;
+}
+
+#pending_requests_list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    list-style-type: none;
+    gap: 15px;
+}
+
+#pending_requests_list li button {
+    margin: 3px;
+}

@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
           });
 
           const userShell = // create user shell
-          $(`<div class="user_shell"> 
+          $(`<li class="user_shell"> 
               <h3>${user[1]}</h3>
-          </div>`);
+          </li>`);
 
           findFriendsList.append(userShell[0]); // append user shell to container
           userShell.append(viewUserProfileBtn); // append view user profile button to user shell
