@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#create_comment_btn").on("click", makeComment);
 
   // get comments for post
-  const getCommentsAndPostData = (postId) => {
+  const getCommentsAndPostData = (postId, userName) => {
     
     const existingComments = $('#existing_comments');
     existingComments.empty();
@@ -98,11 +98,15 @@ document.addEventListener("DOMContentLoaded", () => {
       method: "GET",
       success: (response) => {
 
+        console.log(response)
+
         const userPosterName = $('#user_post_name');
         const userPosterText = $('#user_post_text');
         const userPostDate = $('#user_post_date');
 
         response.map((item) => {
+
+          console.log(item)
 
           const pId = item[0]
           const postText = item[1]
@@ -113,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const postCommenterName = item[6]
 
           if (postId === pId) {
-            userPosterName.text(sessionData.name)
+            userPosterName.text(userName)
             userPosterText.text(postText)
             userPostDate.text(postDate)
 
@@ -143,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
       method: "GET",
       dataType: "json",
       success: (response) => {
+        console.log(response)
         const noPosts = $('<div id="no_posts"><h3>No posts to show</h3></div>');
         const postsContainer = $("#existing_posts_area");
 
@@ -177,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
               const postModal = $(".post_modal_container");
               postModal.css("display", "flex");
               sessionData.activePostId = postId;
-              getCommentsAndPostData(postId);
+              getCommentsAndPostData(postId, userName);
             });
 
             postsContainer.append(postShell);

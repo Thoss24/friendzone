@@ -33,6 +33,44 @@ body * {
     background-color: rgba(238, 223, 15, 0.2);
 }
 
+/* personal info section  */
+
+#personal_info_section {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+    gap: 10px;
+}
+
+.personal_info_section_shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    pointer-events:none;
+    margin: 8px;
+}
+
+.personal_info_section_shell textarea {
+    resize: none;
+    border: none;
+    border-radius: 6px;
+    padding: 2px;
+    outline: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.personal_info_section_shell input {
+    border: none;
+    border-radius: 6px;
+    padding: 2px;
+    outline: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+
 /* header section  */
 
 header {
@@ -47,7 +85,6 @@ header {
     display: flex;
     flex-direction: row;
 }
-
 
 #nav_section button {
     border: none;

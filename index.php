@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="login_and_create_acc.css" rel="stylesheet"></link>
+    <link href="./pages/login_and_create_acc/login_and_create_acc.css" rel="stylesheet"></link>
     <title>FriendZone Login</title>
 </head>
 <body>
@@ -63,6 +63,6 @@
     </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="./login_create_acc.js"></script>
+    <script src="./pages/login_and_create_acc/login_create_acc.js"></script>
 </body>
 </html>

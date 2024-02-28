@@ -4,8 +4,6 @@ require 'db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-    
-
     $post_id = $_GET['id'];
     
     $stmt = $conn->prepare(

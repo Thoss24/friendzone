@@ -25,6 +25,10 @@ header button{
 
 /* friends list */
 
+.friend_shell button {
+    margin: 4px;
+}
+
 #friends_list_container {
     display: flex;
     justify-content: center;

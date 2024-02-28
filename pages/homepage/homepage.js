@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   // global user session data
-  let sessionData = {
+  const sessionData = {
     userId: 0,
     name: "",
     notificationsArr: [],
@@ -8,14 +8,26 @@ document.addEventListener("DOMContentLoaded", () => {
     activePostId: 0,
   };
 
+  // load personal info
+  const getPersonalInfo = () => {
+    $.ajax({
+      url: `http://localhost/friendzone/backend/personal_info.php?id=${sessionData.userId}`,
+      method: "GET",
+      success: (response) => {
+        console.log(response);
+      },
+    });
+  };
+
   // get user id
   $.ajax({
     url: "http://localhost/friendzone/backend/session_data.php",
     method: "GET",
     success: (response) => {
-      //console.log(response)
+      console.log(response);
       sessionData.userId = response.user_id;
       sessionData.name = response.name;
+      getPersonalInfo()
     },
   });
 
@@ -64,8 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
       url: "http://localhost/friendzone/backend/end_session.php",
       type: "GET",
       success: (response) => {
-        window.location =
-          "http://localhost/friendzone/pages/login_and_create_acc/login_page.php";
+        window.location = "http://localhost/friendzone/index.php";
       },
     });
   };
@@ -88,23 +99,21 @@ document.addEventListener("DOMContentLoaded", () => {
       dataType: "text",
       data: JSON.stringify(commentData),
       success: () => {
-        getComments()
+        getComments();
       },
     });
   };
 
   const getComments = () => {
-
     const existingComments = $("#existing_comments");
 
     $.ajax({
       url: `http://localhost/friendzone/backend/posts_and_comments.php?id=${sessionData.activePostId}`,
       method: "GET",
       success: (response) => {
+        const mostRecentComment = response[response.length - 1];
 
-        const mostRecentComment = response[response.length - 1]
-
-        console.log(response)
+        console.log(response);
 
         const userPosterName = $("#user_post_name");
         const userPosterText = $("#user_post_text");
@@ -136,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(error);
       },
     });
-  }
+  };
 
   $("#create_comment_btn").on("click", makeComment);
 
@@ -287,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // get posts
   const getPosts = () => {
     const postsContainer = $("#existing_posts_area");
-    postsContainer.empty()
+    postsContainer.empty();
     $.ajax({
       url: "http://localhost/friendzone/backend/posts.php",
       method: "GET",
@@ -300,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const postTime = mostRecentPost[3];
         const postId = mostRecentPost[0];
 
-        console.log(mostRecentPost)
+        console.log(mostRecentPost);
 
         const postShell = $(`<div id=${postId} class="post_shell">
         <div class="post_header">
@@ -445,5 +454,17 @@ document.addEventListener("DOMContentLoaded", () => {
     postModal.css("display", "none");
   });
 
-  // delete post
+  // edit personal info handler
+  $("#edit_info_btn").on("click", () => {
+    $("#edit_info_btn").css("display", "none");
+    $(".personal_info_section_shell").css("pointer-events", "all");
+    $("#done_editing_info_btn").css("display", "flex");
+  });
+
+  $("#done_editing_info_btn").on("click", (event) => {
+    event.preventDefault();
+    $("#edit_info_btn").css("display", "flex");
+    $(".personal_info_section_shell").css("pointer-events", "none");
+    $("#done_editing_info_btn").css("display", "none");
+  });
 });

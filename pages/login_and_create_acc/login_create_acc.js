@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
                 authSuccessBtn.on('click', () => {
                     authSuccessContainer.css("display", "none");
-                    window.location = "http://localhost/friendzone/pages/login_and_create_acc/login_page.php"
+                    window.location = "http://localhost/friendzone/index.php"
                 });
             },
             error: (err) => {
